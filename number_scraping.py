@@ -11,13 +11,14 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",
     password="P@ssword321",
-    database="data"
+    database="scrap_data"
 )
 cursor = conn.cursor()
 
 # ----------------- CREATE TABLE IF NOT EXISTS -----------------
+
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS web_data (
+CREATE TABLE IF NOT EXISTS contact_data (
     srno INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(255),
     phone_number VARCHAR(50),
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS web_data (
     location VARCHAR(255),
     service VARCHAR(255),
     website VARCHAR(255),
+    contacts TEXT,
     scraped_at DATETIME,
     UNIQUE KEY unique_contact (company_name, phone_number)
 )
@@ -44,11 +46,11 @@ def save_to_db(name, phone, email, jd_url, location, service, website):
     now = datetime.now()
     try:
         cursor.execute("""
-            INSERT IGNORE INTO web_data
+            INSERT IGNORE INTO contact_data
             (company_name, phone_number, email, jd_url, location, service, website, scraped_at)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """, (name, phone, email, jd_url, location, service, website, now))
-        conn.commit()
+        conn.commit( )
         print(f"✅ Saved {name} | {phone} | {location} | {jd_url}")
     except mysql.connector.Error as e:
         print(f"DB Error: {e}")
@@ -123,7 +125,7 @@ def scrape_justdial(cities, keywords, max_pages=3):
                         # ✅ Service (use keyword as service category)
                         service = keyword
 
-                        # ✅ Website (not available on Justdial)
+                        # ✅ Website (placeholder for now)
                         website = "N/A"
 
                         # ✅ Save all phone numbers separately
@@ -139,6 +141,10 @@ def scrape_justdial(cities, keywords, max_pages=3):
 # ----------------- RUN SCRAPER -----------------
 scrape_justdial(cities, keywords, max_pages=5)
 
-# ----------------- CLOSE CONNECTION -----------------
+# ---------------- CLOSE CONNECTION -----------------
 cursor.close()
 conn.close()
+
+
+
+
