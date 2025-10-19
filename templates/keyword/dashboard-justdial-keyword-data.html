@@ -1,0 +1,121 @@
+{% extends 'dashboard-template.html' %}
+<!-- Title Block -->
+{% block title %}
+<title>JustDial | Keywords</title>
+<meta content="" name="description" />
+<meta content="" name="keywords" />
+<style>
+    #ip-table.dataTable {
+        margin: 0 !important;
+    }
+
+    #ip-table.no-data {
+        border: none;
+    }
+    
+    #ip-table.no-data thead {
+        display: none;
+    }
+    
+    input[type="file"] {
+        display: none;
+    }
+
+    .trans-button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+    }
+
+    .animate-trans {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .animate-trans:hover {
+        transform: rotate(360deg);
+    }
+</style>
+{% endblock %}
+<!-- Include sidebar -->
+{% block sidebar %}
+<!-- Set Values -->
+{% set tab = "ip" %} {% set isLoggedIn = True %}{% set fullname = result.fullname %} {% set username = result.username
+%}{% set user_role = result.role %}
+{% include "dashboard-sidebar.html" %}
+{% endblock %}
+<!-- Main Block -->
+{% block main %}
+<section class="section dashboard tools-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Keyword Table</h5>
+                        <div class="d-flex justify-content-end" style="width: 100px">
+                            <div id="selection-buttons" style="display: none">
+                                <button class="search-button1 bg-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                        <form method="POST" action="{{ url_for('justdial_keyword') }}"
+                                class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <label for="fname" class="form-label mb-1">Keyword:</label>
+                                    <input type="text" id="fname" name="service"
+                                        class="search-icon rounded-3 px-4 py-2 border" value="{{result.service}}" />
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm search-button1">Add Keyword</button>
+                            </form>
+                        <table class="styled-table{% if not result.data|length > 0 %} no-data{% endif %}" id="ip-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all">Sr. No</th>
+                                    <th>Keyword</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if result.data|length > 0 %}
+                                {% for dat in result.data %}
+                                <tr>
+                                    <td data-label="Sr. No">
+                                        <input type="checkbox" class="checkbox" data-keyword-id="{{ dat.id }}"
+                                            data-keyword-name="{{ dat.keyword }}">
+                                        {{ dat.id }}
+                                    </td>
+                                    <td data-label="Keyword">{{ dat.keyword }}</td>
+                                    <td><button type="button" class="search-button1" data-bs-toggle="modal"
+                                        data-bs-target="#editModal" data-keyword-id="{{ dat.id }}"
+                                        data-keyword-name="{{ dat.keyword }}">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button></td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr class="no-data">
+                                    <td colspan="3" style="text-align: center;">
+                                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                            <p style="color: #6c757d; margin: 0;">Add Keyword</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'keyword/keyword-delete-modal.html' %}
+{% include 'keyword/edit-keyword-modal.html' %}
+{% endblock %}
+<!-- Scripts Block -->
+{% block script_down %}
+<script src="/static/min-js/scripts/dashboard/ip/dashboard-ip.js"></script>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'dashboard-template.html' %}
+<!-- Title Block -->
+{% block title %}
+<title>JustDial Data</title>
+<meta content="" name="description" />
+<meta content="" name="keywords" />
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .trans-button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+    }
+
+    .animate-trans {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .animate-trans:hover {
+        transform: rotate(360deg);
+    }
+    
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px 15px;
+        border-radius: 4px;
+    }
+    
+    .styled-table {
+        width: 100%;
+        min-width: 1000px; 
+        border-collapse: collapse;
+        font-size: 0.9em;
+        font-family: sans-serif;
+    }
+    
+    .styled-table tbody td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #dee2e6;
+        white-space: nowrap;
+    }
+    
+    .styled-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .styled-table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+<!-- Include sidebar -->
+{% block sidebar %}
+<!-- Set Values -->
+{% set tab = "data" %}
+{% set isLoggedIn = True %}
+{% set fullname = result.fullname %}
+{% set username = result.username %}
+{% set user_role = result.role %}
+{% include "dashboard-sidebar.html" %}
+{% endblock %}
+<!-- Main Block -->
+{% block main %}
+<section class="section dashboard tools-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">JustDial Data</h5>
+                        <div class="table-container">
+                            <table class="styled-table" id="ip-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Company Name</th>
+                                        <th>Phone</th>
+                                        <th>Contacts</th>
+                                        <th>Email</th>
+                                        <th>Location</th>
+                                        <th>Service</th>
+                                        <th>Website</th>
+                                        <th>Scraped At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if result.data %}
+                                    {% for item in result.data %}
+                                    <tr>
+                                        <td>{{ item.srno }}</td>
+                                        <td>{{ item.company_name }}</td>
+                                        <td>{{ item.phone_number }}</td>
+                                        <td>{{ item.contacts }}</td>
+                                        <td>{{ item.email or 'N/A' }}</td>
+                                        <td>{{ item.location }}</td>
+                                        <td>{{ item.service }}</td>
+                                        <td>{{ item.website }}</td>
+                                        <td>{{ item.scraped_at.strftime('%Y-%m-%d %H:%M') if item.scraped_at else 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="9" class="text-center">No data available</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+<!-- Scripts Block -->
+{% block script_down %}
+
+{% endblock %}

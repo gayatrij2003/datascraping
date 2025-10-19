@@ -1,0 +1,89 @@
+{% extends 'dashboard-template.html' %}
+<!-- Title Block -->
+{% block title %}
+<title>JustDial | DomainData</title>
+<meta content="" name="description" />
+<meta content="" name="keywords" />
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .trans-button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+    }
+
+    .animate-trans {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .animate-trans:hover {
+        transform: rotate(360deg);
+    }
+</style>
+{% endblock %}
+<!-- Include sidebar -->
+{% block sidebar %}
+<!-- Set Values -->
+{% set tab = "data" %}
+{% set isLoggedIn = True %}
+{% set fullname = result.fullname %}
+{% set username = result.username %}
+{% set user_role = result.role %}
+{% include "dashboard-sidebar.html" %}
+{% endblock %}
+<!-- Main Block -->
+{% block main %}
+<section class="section dashboard tools-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Domain Data</h5>
+
+                        <table class="styled-table" id="ip-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Domain</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Scraped At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if result.data %}
+                                {% for item in result.data %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.domain }}</td>
+                                    <td>{{ item.email or 'N/A' }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.scraped_at.strftime('%Y-%m-%d %H:%M') if item.scraped_at else 'N/A' }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No data available</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<!-- Scripts Block -->
+{% block script_down %}
+
+{% endblock %}

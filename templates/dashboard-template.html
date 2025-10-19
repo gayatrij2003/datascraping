@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="google-site-verification" content="KT1vYcx6FizmYDtY8Xa0-5Vx5zyz1jCJ4rfW_ylOPZA" />
+    {% block title %}{% endblock %}
+    <!-- Include headlink file -->
+    {% include 'headlink.html' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .spinner {
+            border: 3px solid #f3f3f3;
+            /* Light grey */
+            border-top: 3px solid #840000;
+            /* Blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <script src="{{ url_for('static', filename='min-js/scripts/tools.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lf4b68qAAAAAC-7ubJT6SZQtzOk_heapS0gR4wMb" async
+        defer></script>
+</head>
+
+<body>
+    {% block sidebar %}{% endblock %}
+    <main id="main" class="main">
+        {% block main %}{% endblock %}
+    </main>
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+    <div class="d-flex justify-content-center">
+        <div id="actions" class="alert-modal"></div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div id="userlimit-error" class="alert-modal"></div>
+    </div>
+
+    <!-- Scripts Block -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+    
+    <!-- Then load Bootstrap -->
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Then load other scripts -->
+    {% include 'scripts.html' %}
+    
+    <!-- Finally load dashboard.js after all dependencies -->
+    <script src="{{ url_for('static', filename='min-js/dashboard.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

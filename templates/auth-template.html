@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        {% block metadata %}{% endblock %}
+        <!-- Head Link Block -->
+        {% include 'headlink.html' %}
+        <script src="https://www.google.com/recaptcha/api.js?render=6Lf4b68qAAAAAC-7ubJT6SZQtzOkheapS0gR4wMb"
+                async
+                defer></script>
+        <link rel="stylesheet" href="/static/css/auth.css" />
+        <link rel="stylesheet" href="/static/css/dashboard.css" />
+    </head>
+    <body class="index-page">
+        {% set isLoggedIn = False %}
+        {% include 'dashboard-sidebar.html' %}
+        <main class="main">
+            <div class="background-image">
+                <div class="login-form">
+                    <div class="container auth">
+                        <div id="login"></div>
+                        <div class="main">
+                            {% block main_form %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Scroll Top -->
+        <a href="#"
+           id="scroll-top"
+           class="scroll-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
+        <div class="d-flex justify-content-center">
+            <div id="recaptcha-error" class="alert-modal"></div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div id="actions" class="alert-modal"></div>
+        </div>
+        <!-- Footer -->
+        {% set tools_page = True %} {% set auth = False %}
+        {% include 'footer.html' %}
+        <!-- Scripts -->
+        {% include 'scripts.html' %}
+        <script src="/static/min-js/scripts/auth/auth.js"></script>
+        <script src="/static/min-js/scripts/tools.js"></script>
+        {% block script %}
+        {% endblock %}
+        <script>
+            const isRecaptchaError = "{{result.recaptcha_error}}";
+            if (isRecaptchaError) {
+                addReCaptchaError();
+            }
+        </script>
+        <script type="text/javascript" defer>
+            const actionsApplied = "{{result.action}}";
+
+            if (actionsApplied !== "None" && actionsApplied) {
+                addActionAlert("{{result.message}}");
+            }
+        </script>
+    </body>
+</html>

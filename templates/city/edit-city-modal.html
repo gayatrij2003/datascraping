@@ -1,0 +1,34 @@
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="edit-city-form">
+                <div class="modal-header">
+                    <h5 class="modal-title d-flex align-items-center">
+                        <i class="bi bi-person-circle fs-3 me-2"></i>Edit City
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="city_id" name="city_id" />
+                    
+                    <div class="mb-2">
+                        <label for="city_name_old">Old City Name:</label>
+                        <input type="text" id="city_name_old" name="city_name_old" disabled />
+                    </div>
+                    
+                    <div class="mb-2">
+                        <label for="city_name_new">New City Name:</label>
+                        <input type="text" id="city_name_new" name="city_name_new" />
+                    </div>
+                    
+                    <div class="login-b">
+                        <button type="button" id="edit-city-btn" class="search-button1">
+                            Save City Name
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

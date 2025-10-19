@@ -1,0 +1,93 @@
+<!-- jQuery (required for DataTables) -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+
+<!-- DataTables Bootstrap 5 Integration -->
+<script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+
+<!-- Bootstrap JS (must be first) -->
+
+<!-- Vendor JS Files -->
+<!-- Main JS File -->
+<script rel="preload" src="/static/min-js/main.js" defer></script>
+<script rel="preload" src="/static/min-js/dashboard.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(".slide-up"); // Select elements with 'slide-up' class
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active"); // Add 'active' class when element is in view
+                        observer.unobserve(entry.target); // Stop observing once the element is revealed
+                    }
+                });
+            },
+            {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+            },
+        );
+
+        if (elements) {
+            elements.forEach((element) => {
+                observer.observe(element); // Start observing each element
+            });
+        }
+    });
+</script>
+<script>
+    function initializeConditionalTooltips() {
+        // Select all elements with tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+        // Loop through each tooltip element
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+            // Find the closest parent with the 'parent-active' class
+            if (tooltipTriggerEl.closest(".toggle-sidebar")) {
+                // Enable the tooltip
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            }
+        });
+    }
+
+    // Call this function when the page loads
+    initializeConditionalTooltips();
+
+    // If you want to update tooltips when class changes dynamically:
+    const observer = new MutationObserver(() => {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => {
+            const tooltipInstance = bootstrap.Tooltip.getInstance(el);
+            if (el.closest(".toggle-sidebar")) {
+                // Ensure tooltip is enabled
+                if (!tooltipInstance) {
+                    new bootstrap.Tooltip(el);
+                }
+            } else {
+                // Destroy tooltip if parent no longer has the class
+                if (tooltipInstance) {
+                    tooltipInstance.dispose();
+                }
+            }
+        });
+    });
+
+    // Observe the document for class changes
+    observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["class"] });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize dropdowns using Bootstrap's method
+        var dropdowns = document.querySelectorAll('.dropdown-toggle');
+        dropdowns.forEach(function (dropdown) {
+            // Only initialize if not already initialized
+            if (!dropdown.hasAttribute('data-bs-toggle')) {
+                dropdown.setAttribute('data-bs-toggle', 'dropdown');
+                new bootstrap.Dropdown(dropdown);
+            }
+        });
+    });
+</script>
