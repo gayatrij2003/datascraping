@@ -1,0 +1,131 @@
+<header id="header" class="header fixed-top">
+    <div class="container d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename mt-2" >
+                    <span>JustDial</span>Scraping
+                </h1>
+            </a>
+        </div>
+
+        <nav class="header-nav ms-auto d-flex align-items-center">
+            <div class="dropdown d-inline-block">
+                {% if result.username %}
+                <button class="btn btn-secondary dropdown-toggle mt-2" type="button" id="accountDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false"
+                    style="background-color: transparent; color:black; border: none;">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="ms-1 d-none d-md-inline">
+                        {{ result.username }}
+                    </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                    <li class="dropdown-header">
+                        <span>Welcome, {{ result.username }}</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-person me-2"></i>My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-bar-chart me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-gear me-2"></i>Account Settings
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">
+                            Sign Out
+                        </a>
+                    </li>
+                </ul>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="search-button1 mt-2">
+                    Login
+                </a>
+                {% endif %}
+            </div>
+            
+        </nav>
+
+    </div>
+    <!-- End Icons Navigation -->
+</header>
+
+{% if isLoggedIn %}
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Dashboard"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='dashboard' %}collapsed{% endif %}" href="#">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="City"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='city' %}collapsed{% endif %}" href="{{ url_for('justdial_city') }}">
+                <i class="bi bi-geo-alt"></i>
+                <span>City</span>
+            </a>
+        </li>
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Keyword"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='keyword' %}collapsed{% endif %}"
+                href="{{ url_for('justdial_keyword') }}">
+                <i class="bi bi-card-list"></i>
+                <span>Keyword</span>
+            </a>
+        </li>
+
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Data"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='data' %}collapsed{% endif %}" href="{{ url_for('justdial_data') }}">
+                <i class="bi bi-cloud-check"></i>
+                <span>Data</span>
+            </a>
+        </li>
+
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Domains"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='domains' %}collapsed{% endif %}" href="{{ url_for('domains') }}">
+                <i class="bi bi-globe2"></i>
+                <span>Domains</span>
+            </a>
+        </li>
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Domains Data"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='domains_data' %}collapsed{% endif %}" href="{{ url_for('domain_data') }}">
+                <i class="bi bi-database-check"></i>
+                <span>Domains Data</span>
+            </a>
+        </li>
+        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Domains Info Data"
+            data-bs-custom-class="dnsloader-tooltip">
+            <a class="nav-link {% if not tab=='domains_info_data' %}collapsed{% endif %}" href="{{ url_for('justdial_extracted_domains') }}">
+                <i class="bi bi-folder-plus"></i>
+                <span>Domains Info Data</span>
+            </a>
+        </li>
+    </ul>
+    <div class="side-open-close">
+        <div class="d-flex align-items-center p-2">
+            <span class="nav-link sidebar-toggle collapsed">
+                <i class="bi bi-box-arrow-left toggle-sidebar-btn-x"></i>                                                                       
+                <i class="bi bi-box-arrow-right toggle-sidebar-btn"></i>
+            </span>
+        </div>
+    </div>
+</aside>
+{% endif %}

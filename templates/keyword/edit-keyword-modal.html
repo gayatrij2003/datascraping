@@ -1,0 +1,34 @@
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="edit-keyword-form">
+                <div class="modal-header">
+                    <h5 class="modal-title d-flex align-items-center">
+                        <i class="bi bi-person-circle fs-3 me-2"></i>Edit Keyword
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="keyword_id" name="keyword_id" />
+                    
+                    <div class="mb-2">
+                        <label for="keyword_name_old">Old Keyword Name:</label>
+                        <input type="text" id="keyword_name_old" name="keyword_name_old" disabled />
+                    </div>
+                    
+                    <div class="mb-2">
+                        <label for="keyword_name_new">New Keyword Name:</label>
+                        <input type="text" id="keyword_name_new" name="keyword_name_new" />
+                    </div>
+                    
+                    <div class="login-b">
+                        <button type="button" id="edit-keyword-btn" class="search-button1">
+                            Save Keyword Name
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+{% extends 'dashboard-template.html' %}
+<!-- Title Block -->
+{% block title %}
+<title>JustDial | Cities</title>
+<meta content="" name="description" />
+<meta content="" name="keywords" />
+<style>
+
+    /* #ip-table.dataTable {
+        margin: 0 !important;
+    }
+
+    #ip-table.no-data {
+        border: none;
+    }
+    
+    #ip-table.no-data thead {
+        display: none;
+    } */
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .trans-button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+    }
+
+    .animate-trans {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .animate-trans:hover {
+        transform: rotate(360deg);
+    }
+
+    .select-checkbox {
+        width: 20px;
+    }
+
+    .checkbox {
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+    }
+
+    th.select-checkbox,
+    td.select-checkbox {
+        text-align: center;
+    }
+
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .modal {
+        z-index: 1041 !important;
+    }
+</style>
+{% endblock %}
+<!-- Include sidebar -->
+{% block sidebar %}
+<!-- Set Values -->
+{% set tab = "ip" %} {% set isLoggedIn = True %}{% set fullname = result.fullname %} {% set username = result.username
+%}{% set user_role = result.role %}
+{% include "dashboard-sidebar.html" %}
+{% endblock %}
+<!-- Main Block -->
+{% block main %}
+<section class="section dashboard tools-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">City Table</h5>
+                        <div class="d-flex justify-content-end" style="width: 100px">
+                            <div id="selection-buttons" style="display: none">
+                                <button class="search-button1 bg-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                        <form id="cityForm" method="POST" action="{{ url_for('justdial_city') }}"
+                            class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <label for="fname" class="form-label mb-1">City:</label>
+                                <input type="text" id="fname" name="city" class="search-icon rounded-3 px-4 py-2 border"
+                                    value="" />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm search-button1">Add City Name</button>
+                        </form>
+                        <table class="styled-table" id="ip-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="select-all">Sr. No
+                                    </th>
+                                    <th>City</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if result.data|length > 0 %}
+                                {% for dat in result.data %}
+                                <tr>
+                                    <td data-label="Sr. No">
+                                        <input type="checkbox" class="checkbox" data-id="{{ dat.id }}"
+                                            data-name="{{ dat.city_name }}">
+                                        {{ dat.id }}
+                                    </td>
+                                    <td data-label="City">{{ dat.city_name }}</td>
+                                    <td><button type="button" class="search-button1" data-bs-toggle="modal"
+                                            data-bs-target="#editModal" data-id="{{ dat.id }}"
+                                            data-name="{{ dat.city_name }}">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </button></td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr class="no-data">
+                                    <td colspan="3" style="text-align: center;">
+                                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                            <p style="color: #6c757d; margin: 0;">Add City Name</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'city/city-delete-modal.html' %}
+{% include 'city/edit-city-modal.html' %}
+{% endblock %}
+<!-- Scripts Block -->
+{% block script_down %}
+<script src="{{url_for('static', filename='js/scripts/dashboard/dashboard.js')}}"></script>
+{% endblock %}

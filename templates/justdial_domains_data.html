@@ -1,0 +1,162 @@
+{% extends 'dashboard-template.html' %}
+<!-- Title Block -->
+{% block title %}
+<title>JustDial | DomainDetailData</title>
+<meta content="" name="description" />
+<meta content="" name="keywords" />
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .trans-button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+    }
+
+    .animate-trans {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .animate-trans:hover {
+        transform: rotate(360deg);
+    }
+
+    
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px 0;
+    }
+    .styled-table {
+        min-width: 1000px; /* Ensures the table is wider than the container */
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    .styled-table thead tr {
+        background-color: #2c3e50;
+        color: #ffffff;
+        text-align: left;
+    }
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+        white-space: nowrap;
+    }
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #2c3e50;
+    }
+</style>
+{% endblock %}
+<!-- Include sidebar -->
+{% block sidebar %}
+<!-- Set Values -->
+{% set tab = "data" %}
+{% set isLoggedIn = True %}
+{% set fullname = result.fullname %}
+{% set username = result.username %}
+{% set user_role = result.role %}
+{% include "dashboard-sidebar.html" %}
+{% endblock %}
+<!-- Main Block -->
+{% block main %}
+<section class="section dashboard tools-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Domain Data</h5>
+                        <div class="table-container">
+                            <table class="styled-table" id="ip-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Domain</th>
+                                        <th>Registry</th>
+                                        <th>Expiration Date</th>
+                                        <th>Country</th>
+                                        <th>Name Servers</th>
+                                        <th>MX Servers</th>
+                                        <th>Ip Address</th>
+                                        <th>Hosting Provider</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if result.data %}
+                                    {% for item in result.data %}
+                                    <tr>
+                                        <td>{{ item.srno }}</td>
+                                        <td>{{ item.domain or 'N/A' }}</td>
+                                        <td>{{ item.registrar or 'N/A' }}</td>
+                                        <td>{{ item.expiration_date or 'N/A' }}</td>
+                                        <td>{{ item.country or 'N/A' }}</td>
+                                        <td>
+                                            {% if item.name_servers %}
+                                                {% set ns_list = item.name_servers.split(',') %}
+                                                {% if ns_list|length > 1 %}
+                                                    <div style="display: flex; flex-direction: column;">
+                                                        {% for ns in ns_list %}
+                                                            <span>{{ ns|trim }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    {{ item.name_servers|trim }}
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if item.mx_servers %}
+                                                {% set mx_list = item.mx_servers.split(',') %}
+                                                {% if mx_list|length > 1 %}
+                                                    <div style="display: flex; flex-direction: column;">
+                                                        {% for mx in mx_list %}
+                                                            <span>{{ mx|trim }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    {{ item.mx_servers|trim }}
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.ip_address or 'N/A' }}</td>
+                                        <td>{{ item.hosting_provider or 'N/A' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="9" class="text-center">No data available</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<!-- Scripts Block -->
+{% block script_down %}
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+{% endblock %}
